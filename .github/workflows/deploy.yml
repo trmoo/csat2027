@@ -1,0 +1,46 @@
+# 깃허브 페이지 자동 배포 — main 에 푸시할 때마다 시험 → 빌드(+빌드 점검) → dist/ 를 Pages 에 올린다.
+# dist/ 는 커밋하지 않는다. 저장소 Settings → Pages → Source 는 「GitHub Actions」.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: 의존성 설치
+        run: npm ci
+      - name: 자료 점검
+        run: npm test
+      - name: 빌드 (+ 원래 교실 이름이 새지 않았는가 점검)
+        run: npm run build
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

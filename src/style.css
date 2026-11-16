@@ -1,0 +1,201 @@
+/* 와우고 3D 교실 안내도 */
+:root {
+  /* 와우고 교표 색 — 교표 원본(.ai)의 버건디 #81002b · 먹색 #231714 · 회색 #717071 */
+  --bg: #f6f2f1;
+  --panel: #fffdfc;
+  --ink: #231714;
+  --muted: #6f6566;
+  --line: #e5d9da;
+  --brand: #81002b;
+  --brand-deep: #5f0020;
+  --brand-soft: #f4e6e8;
+  --brand-ink: #ffffff;
+  --sel: #c41e3a;
+  --focus: #2b7de9;
+  --side-w: 360px;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: 'Pretendard', 'Malgun Gothic', 'Apple SD Gothic Neo', system-ui, sans-serif;
+  font-size: 18px; line-height: 1.5;
+  display: flex; flex-direction: column;
+}
+button, input { font: inherit; color: inherit; }
+
+/* 머리 — 교표 로고처럼 흰 바탕에 교표 + 먹색 학교 이름, 아래에 버건디 띠 */
+.top { background: #fff; color: var(--ink); padding: 8px 20px; border-bottom: 5px solid var(--brand); }
+.brand { display: flex; align-items: center; gap: 14px; }
+.logo { height: 60px; width: auto; display: block; }   /* 벡터(SVG)라 크기를 바꿔도 깨지지 않는다 */
+.top h1 { margin: 0; font-size: 1.7rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1.15; }
+.top h1 span { color: var(--brand); }
+.top .eng { margin: 0; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.22em; color: #717071; }
+.top .sub { margin: 0 0 0 auto; font-size: 0.95rem; font-weight: 700; color: var(--brand);
+  background: var(--brand-soft); padding: 6px 14px; border-radius: 999px; }
+
+/* 본문 두 칸 */
+.app { flex: 1; display: grid; grid-template-columns: var(--side-w) 1fr; min-height: 0; }
+.side { overflow-y: auto; padding: 16px 18px 24px; border-right: 1px solid var(--line); background: var(--panel); }
+.side section + section { margin-top: 18px; }
+.side h2 { font-size: 1rem; margin: 0 0 8px; color: var(--muted); font-weight: 700; }
+
+.search input {
+  width: 100%; padding: 12px 14px; font-size: 1.15rem;
+  border: 2px solid var(--line); border-radius: 10px; background: #fff;
+}
+.search input:focus { outline: none; border-color: var(--focus); }
+.hits { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 4px; }
+.hits li {
+  display: grid; grid-template-columns: 14px 1fr; column-gap: 8px; align-items: center;
+  padding: 8px 10px; border-radius: 8px; cursor: pointer; border: 1px solid transparent;
+}
+.hits li:hover, .hits li:focus { background: var(--brand-soft); border-color: var(--line); outline: none; }
+.hits li i { width: 14px; height: 14px; border-radius: 4px; grid-row: span 2; }
+.hits li b { font-size: 1.05rem; }
+.hits li span { font-size: 0.85rem; color: var(--muted); grid-column: 2; }
+.hits li.none { display: block; cursor: default; color: var(--muted); font-size: 0.9rem; }
+
+.floors { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.floors button {
+  aspect-ratio: 1; border: 2px solid var(--line); border-radius: 50%; background: #fff;
+  font-size: 1.35rem; font-weight: 800; cursor: pointer; padding: 0;
+}
+.floors button[data-f='0'] { font-size: 0.95rem; }
+.floors button span { font-size: 0.7rem; font-weight: 700; }
+.floors button.on { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
+.floors button:hover:not(.on) { border-color: var(--focus); }
+
+.opts { display: grid; gap: 10px; }
+.switch { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.switch input { width: 22px; height: 22px; accent-color: var(--brand); }
+.range { display: grid; grid-template-columns: auto 1fr 3.2em; gap: 8px; align-items: center; }
+.range input { accent-color: var(--brand); }
+.range output { text-align: right; color: var(--muted); font-size: 0.9rem; }
+.btn {
+  border: 2px solid var(--brand); background: var(--brand); color: var(--brand-ink);
+  border-radius: 10px; padding: 9px 14px; cursor: pointer; font-weight: 700;
+}
+.btn.ghost { background: transparent; color: var(--brand); }
+.btn:hover { background: var(--brand-deep); border-color: var(--brand-deep); }
+.btn.ghost:hover { background: var(--brand-soft); color: var(--brand); border-color: var(--brand); }
+
+.legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.legend li {
+  display: flex; align-items: center; gap: 10px; padding: 5px 8px; border-radius: 8px; cursor: pointer;
+  font-size: 0.98rem; border: 1px solid transparent;
+}
+.legend li i { width: 18px; height: 18px; border-radius: 5px; flex: none; border: 1px solid #0002; }
+.legend li em { margin-left: auto; font-style: normal; color: var(--muted); font-size: 0.85rem; }
+.legend li:hover, .legend li:focus { background: var(--brand-soft); outline: none; }
+.legend li.on { border-color: var(--brand); background: var(--brand-soft); font-weight: 700; }
+/* 고른 종류의 방 목록 — 고른 칸 바로 아래 */
+.legend li.cat-rooms {
+  display: block; cursor: default; padding: 4px 4px 8px 22px; max-height: 300px; overflow-y: auto;
+  border: 0; background: none; font-weight: 400;
+}
+.cat-rooms .cat-floor { margin: 6px 0 2px; font-size: 0.8rem; font-weight: 800; color: var(--brand); }
+.cat-rooms ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+.cat-rooms ul li {
+  display: flex; align-items: baseline; gap: 8px; padding: 4px 8px; border-radius: 6px; cursor: pointer;
+  font-size: 0.95rem; border: 1px solid transparent;
+}
+.cat-rooms ul li span { margin-left: auto; font-size: 0.8rem; color: var(--muted); }
+.cat-rooms ul li:hover, .cat-rooms ul li:focus { background: var(--brand-soft); outline: none; }
+.cat-rooms ul li.on { border-color: #c41e3a; color: #c41e3a; font-weight: 700; }
+.tip { font-size: 0.85rem; color: var(--muted); margin: 6px 0 0; }
+.about { font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
+.about p { margin: 0; }
+
+/* 3D 무대 */
+.stage { position: relative; min-height: 0; overflow: hidden; }
+.view { position: absolute; inset: 0; }
+.view canvas { display: block; touch-action: none; }
+.labels { position: absolute; inset: 0; pointer-events: none; z-index: 1; }   /* z-index 로 이름표를 한 겹에 가둬 카드 위로 올라오지 않게 */
+.floor-tag {
+  position: absolute; left: 16px; top: 14px; z-index: 3;
+  background: var(--brand); color: #fff; font-weight: 800; font-size: 1.8rem;
+  padding: 4px 16px; border-radius: 12px; pointer-events: none;
+}
+.hint {
+  position: absolute; left: 16px; bottom: 14px; z-index: 3; max-width: calc(100% - 32px);
+  background: #fffdfce6; border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px;
+  font-size: 0.9rem; color: var(--muted); pointer-events: none;
+}
+
+/* 이름표 (3D 위에 붙는 글자) */
+.tag {
+  pointer-events: auto; cursor: pointer; white-space: nowrap;
+  background: #fffdfcee; border: 1px solid #0003; border-radius: 6px;
+  padding: 1px 6px; font-size: 13px; font-weight: 700; color: var(--ink);
+  transform: translateY(-50%);
+}
+.tag small { display: block; font-size: 10px; font-weight: 500; color: var(--muted); text-align: center; line-height: 1.1; }
+.tag.on small { color: #fff; }
+/* 시험실·예비시험실·수험생 방 — 확대할수록 커진다(--zoom 은 main.js 의 updateZoom) */
+.tag.stack { text-align: center; font-size: calc(15px * var(--zoom, 1)); line-height: 1.05; padding: calc(1px * var(--zoom, 1)) calc(5px * var(--zoom, 1)) calc(2px * var(--zoom, 1)); }
+.tag.stack small.kind { font-size: calc(9px * var(--zoom, 1)); font-weight: 600; margin-bottom: 1px; }
+.tag.stack.on { font-size: calc(18px * var(--zoom, 1)); }
+.legend li.static { cursor: default; opacity: 0.8; }
+.tag-stair, .tag-wc { font-size: 11px; font-weight: 500; color: var(--muted); padding: 0 4px; }
+.tag.on { background: var(--sel); color: #fff; border-color: var(--sel); font-size: 18px; padding: 3px 10px; z-index: 5; }
+
+/* 교실 카드 */
+.card {
+  position: absolute; right: 16px; top: 14px; z-index: 4; width: 340px; max-width: calc(100% - 32px);
+  background: var(--panel); border: 1px solid var(--line); border-top: 5px solid var(--brand); border-radius: 14px;
+  box-shadow: 0 8px 28px #0002; padding: 14px 18px 16px;
+}
+.card-h { display: flex; justify-content: space-between; align-items: center; }
+.chip { font-size: 0.85rem; font-weight: 700; padding: 2px 10px; border-radius: 999px; color: #1c1a17; }
+.x { border: 0; background: none; font-size: 1.8rem; line-height: 1; cursor: pointer; color: var(--muted); }
+.card h3 { margin: 6px 0 2px; font-size: 1.9rem; letter-spacing: -0.02em; }
+.where { margin: 0 0 8px; color: var(--muted); font-weight: 700; }
+.near { margin: 0; padding-left: 18px; font-size: 0.95rem; }
+.card-f { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+.toast {
+  position: absolute; left: 50%; bottom: 60px; transform: translate(-50%, 20px); z-index: 6;
+  background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 10px; opacity: 0;
+  transition: opacity 0.2s, transform 0.2s; pointer-events: none; font-size: 0.95rem;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+
+/* 좁은 화면(폰) — 위아래로 쌓는다 */
+@media (max-width: 860px) {
+  html, body { height: auto; }      /* 폰에서는 페이지 전체가 스크롤된다 */
+  body { font-size: 16px; }
+  .app { display: flex; flex-direction: column-reverse; flex: none; }
+  .stage { height: 62svh; min-height: 360px; flex: none; }
+  .side { border-right: 0; border-top: 1px solid var(--line); overflow: visible; }
+  .card { position: absolute; top: auto; bottom: 10px; right: 10px; left: 10px; width: auto; }
+  .floor-tag { font-size: 1.3rem; }
+  .top .sub { display: none; }
+  .logo { height: 46px; }
+  .top h1 { font-size: 1.35rem; }
+  .hint { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+.tag.clash { visibility: hidden; }
+
+/* 관 이름표 — 지붕 위에 뜨는 큰 이름. 교실 이름표보다 아래 겹에 두어 교실 이름을 가리지 않게 */
+.bld {
+  pointer-events: none; white-space: nowrap;
+  background: var(--brand); color: #fff; border: 2px solid #fff;
+  font-size: 22px; font-weight: 900; letter-spacing: 0.08em;
+  padding: 2px 14px 3px; border-radius: 999px; box-shadow: 0 3px 10px #0003;
+  opacity: 0.94;
+}
+.bld-hall { font-size: 16px; letter-spacing: 0; background: var(--brand-deep); }
+.bld.quiet { font-size: 15px; padding: 1px 10px 2px; opacity: 0.8; }
+.bld.clash { visibility: hidden; }   /* 다른 이름표와 겹쳐 잠깐 숨김 */
+
+/* 운동장·주차장 이름표 — 땅에 붙은 것이라 흐리고 작게 */
+.site-tag {
+  pointer-events: none; white-space: nowrap;
+  color: #fff; background: #4a4446cc; font-size: 14px; font-weight: 800;
+  padding: 1px 9px 2px; border-radius: 6px;
+}
+.site-tag.clash { visibility: hidden; }

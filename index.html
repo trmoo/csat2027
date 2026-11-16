@@ -1,0 +1,88 @@
+<!doctype html>
+<!--
+  와우고 수능 시험장 3D 안내도 (csta2027) — 와우고 3D 교실 안내도(wawoohs-3d)를 바탕으로 변형
+  자료: 2026학년도 와우고등학교 배치도 · 3D 프린팅용 학교 모형(STL) · 2027학년도 수능 시험장 배치
+-->
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>와우고 수능 시험장 안내도</title>
+  <meta name="description" content="2027학년도 대학수학능력시험 와우고등학교 시험장의 시험실·대기실을 3D 로 돌려 보며 찾는 안내도" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <img class="logo" src="./src/assets/emblem.svg" alt="와우고등학교 교표" />
+      <div class="names">
+        <h1>와우고등학교 <span>시험장 안내</span></h1>
+        <p class="eng">WAWOO HIGH SCHOOL</p>
+      </div>
+      <p class="sub">2027학년도 대학수학능력시험 · 3D 시험장 안내도</p>
+    </div>
+  </header>
+
+  <main class="app">
+    <aside class="side" aria-label="안내도 조작">
+      <section>
+        <h2><label for="q">시험실 찾기</label></h2>
+        <div class="search">
+          <input id="q" type="search" autocomplete="off" placeholder="예: 시험실 7, 예비, 대기실, 보건실" />
+        </div>
+        <ul id="hits" class="hits" role="listbox" aria-label="찾은 방"></ul>
+      </section>
+
+      <section>
+        <h2>층 선택</h2>
+        <div class="floors" id="floors"></div>
+      </section>
+
+      <section>
+        <h2>보기</h2>
+        <div class="opts">
+          <label class="switch"><input type="checkbox" id="explode" /> <span>층 띄워 쌓기</span></label>
+          <label class="switch"><input type="checkbox" id="labels" checked /> <span>방 이름표</span></label>
+          <label class="switch"><input type="checkbox" id="bld" checked /> <span>건물 이름(전관·후관·동관·서관)</span></label>
+          <label class="switch"><input type="checkbox" id="site" checked /> <span>운동장·주차장</span></label>
+          <label class="range">벽 투명도 <input type="range" id="wall" min="0" max="100" value="35" /><output id="wallOut">35%</output></label>
+          <button type="button" id="home" class="btn">처음 시점으로</button>
+        </div>
+      </section>
+
+      <section>
+        <h2>색상 안내</h2>
+        <ul class="legend" id="legend"></ul>
+        <p class="tip">색을 누르면 그 종류의 방만 강조되고, 아래에 방 목록이 펼쳐집니다. 목록에서 방을 누르면 그 방으로 갑니다.</p>
+      </section>
+
+      <section class="about">
+        <p>시험장으로 쓰는 방만 이름과 색을 표시했습니다. <b>회색으로 낮게 깔린 방은 시험에 쓰지 않는 공간</b>입니다.
+        배치도는 축척이 있는 설계도가 아니라서 <b>방의 크기와 경계는 어림값</b>입니다.
+        화면의 위쪽이 배치도의 위쪽입니다.</p>
+      </section>
+    </aside>
+
+    <div class="stage">
+      <div id="view" class="view"></div>
+      <div class="floor-tag" id="floorTag">전체</div>
+      <div class="hint" id="hint">층을 누르거나 시험실 번호를 검색하세요. 끌어서 돌리고, 휠·두 손가락으로 확대합니다.</div>
+
+      <div class="card" id="card" hidden>
+        <div class="card-h">
+          <span class="chip" id="cardChip"></span>
+          <button type="button" class="x" id="cardClose" aria-label="닫기">×</button>
+        </div>
+        <h3 id="cardName"></h3>
+        <p class="where" id="cardWhere"></p>
+        <div class="card-f">
+          <button type="button" class="btn" id="cardLink">이 방 링크 복사</button>
+          <button type="button" class="btn ghost" id="cardAll">전체 건물 보기</button>
+        </div>
+      </div>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </div>
+  </main>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

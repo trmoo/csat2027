@@ -1,0 +1,23 @@
+{
+  "name": "csta2027",
+  "private": true,
+  "version": "1.0.0",
+  "description": "와우고 2027학년도 수능 시험장 3D 안내도",
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build && node tools/check-dist.mjs",
+    "preview": "vite preview",
+    "data": "node tools/make_exam.mjs",
+    "test": "node test/data.test.mjs"
+  },
+  "dependencies": {
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "vite": "^8.3.7",
+    "vite-plugin-singlefile": "^2.3.4"
+  }
+}
