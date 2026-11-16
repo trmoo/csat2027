@@ -141,6 +141,12 @@ button, input { font: inherit; color: inherit; }
 .tag.stack { text-align: center; font-size: calc(15px * var(--zoom, 1)); line-height: 1.05; padding: calc(1px * var(--zoom, 1)) calc(5px * var(--zoom, 1)) calc(2px * var(--zoom, 1)); }
 .tag.stack small.kind { font-size: calc(9px * var(--zoom, 1)); font-weight: 600; margin-bottom: 1px; }
 .tag.stack.on { font-size: calc(18px * var(--zoom, 1)); }
+/* 폰 — 방이 작아서 「시험실」 윗줄을 빼고 번호만 작게. 예비시험실은 「예비 1」, 수험생 방은 「휴게실」 로 남는다 */
+@media (max-width: 699px) {
+  .tag.stack { font-size: calc(11px * var(--zoom, 1)); padding: 0 calc(3px * var(--zoom, 1)); border-radius: 4px; }
+  .tag.stack small.kind { display: none; }
+  .tag.stack.on { font-size: calc(13px * var(--zoom, 1)); }
+}
 .legend li.static { cursor: default; opacity: 0.8; }
 .tag-stair, .tag-wc { font-size: 11px; font-weight: 500; color: var(--muted); padding: 0 4px; }
 .tag.on { background: var(--sel); color: #fff; border-color: var(--sel); font-size: 18px; padding: 3px 10px; z-index: 5; }
@@ -205,3 +211,9 @@ button, input { font: inherit; color: inherit; }
 .site-tag.clash { visibility: hidden; }
 .site-tag.no-park { background: #c41e3a; color: #fff; text-align: center; }
 .site-tag.no-park b { display: block; font-size: 11px; font-weight: 900; }
+
+/* 폰 — 운동장·주차장 이름표도 작게(.site-tag 정의보다 뒤에 있어야 먹는다) */
+@media (max-width: 699px) {
+  .site-tag { font-size: 10px; padding: 0 5px 1px; }
+  .site-tag.no-park b { font-size: 8px; }
+}

@@ -425,7 +425,9 @@ function declutter() {
 let homeDist = 0;
 function updateZoom() {
   if (!homeDist) { const { t, p } = homeView(); homeDist = t.distanceTo(p); }
-  const z = Math.min(3, Math.max(1, homeDist / camera.position.distanceTo(controls.target)));
+  // 폰처럼 좁은 화면에서는 방이 작아 이름표가 금방 방보다 커진다 → 덜 키운다(2026-11-16 사용자: 「폰에서 시험실 글씨가 너무 크다」)
+  const max = view.clientWidth < 700 ? 1.8 : 3;
+  const z = Math.min(max, Math.max(1, homeDist / camera.position.distanceTo(controls.target)));
   labelRenderer.domElement.style.setProperty('--zoom', z.toFixed(2));
 }
 
