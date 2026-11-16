@@ -105,7 +105,13 @@ export function buildSite(site) {
   for (const lot of site.lots) {
     root.add(flat(lot.poly, -0.27, 0x8e8f93));
     root.add(lines(lot.rows.flatMap((r) => stallLines(r)), -0.26, 0xf4f4f4));
-    labels.push(tag(lot.name, lot.label || centerOf(lot.poly)));
+    // 수능 당일 수험생은 학교에 주차할 수 없다(2026-11-16 사용자 지시) — 3D 위 주차장 이름표에도 적는다
+    const t = tag(lot.name, lot.label || centerOf(lot.poly));
+    const no = document.createElement('b');
+    no.textContent = '수험생 주차 불가';
+    t.element.append(no);
+    t.element.classList.add('no-park');
+    labels.push(t);
   }
   // 길 — 주차장보다 조금 밝은 아스팔트에 가운데 점선
   for (const road of site.roads || []) {

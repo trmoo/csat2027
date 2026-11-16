@@ -407,7 +407,8 @@ function declutter() {
   // 운동장·주차장 이름표는 가장 덜 중요하다
   for (const o of site.labels) {
     if (!state.site) { o.element.classList.remove('clash'); continue; }
-    tags.push({ r: { el: o.element }, rank: 4, box: o.element.getBoundingClientRect() });
+    // 「수험생 주차 불가」 주차장 이름표는 시험실 다음으로 중요하다
+    tags.push({ r: { el: o.element }, rank: o.element.classList.contains('no-park') ? 1.2 : 4, box: o.element.getBoundingClientRect() });
   }
   tags.sort((a, b) => a.rank - b.rank);
   const kept = [];
